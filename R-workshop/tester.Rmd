@@ -143,7 +143,7 @@ table {
 ```
 
 ```{r}
-dog_data <- dog_data[order(dog_data$AnimalBirthYear, decreasing=TRUE),]
+dog_data <- dog_data[order(dog_data$AnimalName, decreasing=TRUE),]
 head(dog_data,25)
 ```
 
@@ -176,7 +176,7 @@ head(zips_data,3)
 # GGplot2 bar graph
 
 ```{r fig.dim=c(6,3), out.width="80%"}
-head_data <- head(dog_data, 350)
+head_data <- head(dog_data, 10)
 plot <- ggplot(data = head_data, aes(x = BreedName)) + geom_bar(fill="darkgreen")
 plot
 ```
@@ -187,7 +187,7 @@ plot
 # Sorted Plot
 
 ```{r fig.dim=c(6,3), out.width="80%"}
-head_data <- head(dog_data, 1000)
+head_data <- head(dog_data, 100)
 plot1 <- ggplot(head_data, aes(fct_infreq(BreedName))) + geom_bar(fill="maroon") +   theme(axis.text.x = element_text(angle = 45, hjust=1)) + geom_text(stat = "count", aes(label = after_stat(count)), vjust = -0.1)
 plot1
 ```
