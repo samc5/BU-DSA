@@ -1,0 +1,314 @@
+---
+title: "Introduction to the Powers of R"
+subtitle: "<br/> plus RStudio, R Markdown"
+author: "BU Data Science Association"
+institute: "Boston University"
+date: "2025"
+output:
+  xaringan::moon_reader:
+    yolo: true
+    css: [default, metropolis, metropolis-fonts, "styles.css"]
+    lib_dir: libs
+    df_print: paged
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+
+# Summary
+.my-style[
+- R is a statistical programming language; it does only statistics and data science
+- Offers a wide range of statistics-related libraries.
+- Used very often in academia (particularly social science), government agencies, data analysis roles
+- Became a thing in the 1990s
+- Works primarily with 2D dataframes, similar to Python's Pandas library
+- Creators: Robert Gentleman and Ross Ihaka
+]
+---
+
+# R vs Python
+### R and Python can be used interchangeably for many tasks, but there are some notable differences
+.my-style[
+- R is 1-indexed (starts counting at 1, most languages start at 0)
+- R has a slightly steeper learning curve but is still commonly used by non-CS people (academia, government agencies, etc)
+- The difference in speed is not huge; certain tasks are better suited for one of the other but this isn't a big deal
+]
+---
+
+# R Studio
+.my-style[
+- IDE (code editor) specifically for R
+- Not required to code in R but I have found it worthwhile
+- Keeps track of all dataframes, vectors, and even primitive objects (strings, ints, etc) loaded into memory
+- Built-in CSV viewer
+- Built-in R terminal
+]
+---
+
+# R Markdown
+.my-style[
+- Basically Jupyter Notebooks for R, standard way of interacting with R
+- Lets you mix between code sections and markdown (text) sections. 
+- Running code in a section: either Run -> Run Current Chunk or better is ctrl+shift+c
+- Renders an HTML page containing the output of code
+- Certain extensions take this a step further, allowing you to make interactive slideshow presentations and Word documents (These slides are rendered from R markdown!)
+]
+---
+
+# Syntax
+.my-style[
+- .R extension for base R, .Rmd for R Markdown
+- Comments with #
+- Asignment: of “=” to assign variables, r uses “<-” (varname <- value)
+  - Same as relational algebra
+- print()
+  - Also: the last item in a codeblock will be printed even without a print()
+- DELETING: rm() function deletes an object from memory
+	- Useful when you have lots of data loaded
+- VIEWING: ls() function lists data loaded into memory
+]
+
+---
+
+# **Syntax 2**
+## Arrays
+.my-style[
+Create vectors (python list) by using the c() function with the elements of the vector
+]
+<code>
+vec1 <- c(1,2,3)
+vec2 <- c(2,4,6)
+</code>
+
+Indexing uses commas: <code>A[1, 2]</code> gets you row 1, column 2 of a dataframe
+
+***Note that indices start at 1 instead of 0***
+
+---
+# Functions and Piping
+## Functions
+<code>functionname <- function(arguments){
+Do some stuff
+}</code>
+
+## Piping - the “%>%” operator
+
+Piping allows several functions to be ran in a row
+**ex:**  <code>round(exp(diff(log(x))), 1) is the same as
+x %>% log() %> diff() %>% exp() %>% round(1)</code>
+
+#### Think of pipes as "*This* and *Then*"
+
+---
+name: Libraries
+
+# Libraries
+```{r}
+# import statements
+library(tidyverse) 
+# Most important one, has a ton of stuff
+library(readr) # To read CSV
+library(plotly) # Interactive visualizations, python has its own version
+library(DT) # to transfer interactive tables to js
+library(readxl) # To read excel files
+library(wordcloud) # for wordcloud
+library(leaflet) # for interactive maps
+library(knitr)
+```
+
+`library(<library_name>)` is the R equivalent of importing python packages
+
+---
+
+class: left, top
+# Reading in Data (& output)
+
+```{r}
+# TODO: Import dogs.csv
+```
+
+---
+
+class: left, top
+
+# Basic Data Manipulation
+```{css, echo = F}
+table {
+  font-size: 12px;     
+}
+```
+
+
+
+```{r}
+# TODO: Create a table with the 25 youngest dogs
+```
+
+
+
+---
+
+# Simple Data Exploration
+### Helps you get a brief idea of what you're looking at
+
+```{r}
+# Print summary information about the data
+summary(zips_data)
+```
+
+
+# Print/Display Data
+.pull-left[
+```{r eval=TRUE}
+# TODO: Read in zips.xlsx and display a few of its lines
+```
+]
+
+.pull-right[
+```{r eval=TRUE}
+# TODO: Add column names to the zip codes (ZipCode and Population)
+```
+]
+
+### No need for a print statement!
+
+---
+
+# GGplot2 bar graph
+
+```{r fig.dim=c(6,3), out.width="80%"}
+# TODO: Create a bar chart with ggplot comparing the total number of dogs of each breed
+
+```
+
+
+---
+
+# Sorted Plot
+
+```{r fig.dim=c(6,3), out.width="80%"}
+# TODO: Increase the amount of data, add tilted x labels, add data labels, sort it in descending order
+
+```
+
+---
+
+# Interactive plot (plotly)
+
+```{r fig.dim=c(6,5), out.width="80%"}
+# TODO: Build an interactive equivalent of the plot above using plotly
+```
+
+
+
+---
+
+# Combining datasets
+
+```{r}
+```
+
+---
+
+# `Select` to filter out columns
+```{r}
+# TODO: TODO: Select only a few important columns (set aside the three useless ones)
+simple_dog <- dog_data %>% select('AnimalName', 'AnimalBirthYear', 'AnimalGender', 'BreedName', 'ZipCode')
+head(simple_dog,5)
+
+```
+
+---
+
+# `Filter` to filter out rows
+### `Arrange` is another way to sort
+
+```{r}
+# TODO: Find all the dogs named Fido ("FIDO" by the standards of the dataset) and sort them by descending Birth Year and then Breed Name
+```
+
+---
+
+# `Mutate` to create new column
+
+```{r}
+# TODO: Create a crude age column by subtracting the dog's birth year from 2025
+```
+
+---
+
+# `Count` for counting
+
+```{r}
+# TODO: Count the number of male vs female dogs in the dataset
+```
+
+- Returns a table with two columns, the thing you're counting, and its value
+
+---
+
+# Word Counting
+
+```{r}
+## Word Cloud requires a table with the word and the number of occurrences
+# TODO: Count up the number of occurrences of each name, filter out the following common entries that aren't names: "UNKNOWN", "NAME NOT PROVIDED", "NOT"
+```
+
+---
+
+# Word Cloud Function
+```{r}
+# TODO: Build a wordcloud of the most common dog names
+
+```
+
+
+# Lat/long data
+```{r}
+lat_long <- read_csv("data/lat_long.csv")
+head(lat_long,3)
+```
+
+
+##  Merging
+```{r}
+# TODO: Merge simple_dog with lat_long to acquire the latitude and longitude of each dog's zip code
+```
+
+---
+
+# Challenge: Boston Terrier data trimming
+```{r}
+# We're going to create a bubble map visualizing Boston Terrier population in NYC
+# Ingredients: dog_data, zips_data, lat_long
+# Hint: Use filter, select, count, merge (twice), and mutate
+# For each zip code, we need the latitude, longitude, and terriers per 10000 people (call this column Density for the sake of the exercise)
+
+```
+
+---
+
+# Maps!
+
+```{r}
+# The syntax for making the actual maps is a little insane so we've included the mostly complete code to build the map
+mybins <- seq(0, 36, by=(36/9))
+mypalette <- colorBin( palette="YlOrRd", domain=<TODO>,
+na.color="transparent", bins=mybins)
+
+map <- leaflet(<TODO>) %>% # TODO
+  addTiles() %>%
+    setView(-74.00, 40.71, zoom = 12) %>%
+  addCircleMarkers(~Longitude, ~Latitude,
+    fillColor = ~mypalette(<TODO>), fillOpacity = 1, #TODO
+    color="white", radius=~(<TODO>/(35/12))+5, stroke=FALSE) #TODO
+```
+
+
+---
+# Boston Terrier Density in NYC
+```{r echo=FALSE}
+map
+```
